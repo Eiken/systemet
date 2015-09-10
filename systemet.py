@@ -2,10 +2,6 @@
 # -*- coding: utf-8 -*-
 import requests
 import urllib
-import sys
-from datetime import datetime
-from datetime import timedelta
-import re
 import json
 
 try:
