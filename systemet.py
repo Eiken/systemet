@@ -31,6 +31,8 @@ def runMe(bot, tickers):
         searchString = '%{0}%'.format(ticker.replace(' ', '%'))
         q = {
             'name': searchString,
+            'order_by': 'apk',
+            'order': 'DESC'
         }
         query = url + urllib.urlencode(q)
         result = requests.get(query)
@@ -66,6 +68,7 @@ except:
 
 def test():
     tickers = 'smirnoff gold,triple'
+    tickers = 'sofiero'
     runMe(None, tickers)
 
 if __name__ == "__main__":
