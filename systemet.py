@@ -36,7 +36,6 @@ def runMe(bot, tickers):
             'order': 'DESC'
         }
         da = urllib.urlencode(q)
-        print da
         query = url + da
         result = requests.get(query)
         dic = json.loads(result.content)
