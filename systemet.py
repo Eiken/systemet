@@ -28,13 +28,16 @@ def runMe(bot, tickers):
     url = "http://systemetapi.se/product?"
 
     for ticker in tickers:
+        ticker = ticker.encode('utf-8')
         searchString = '%{0}%'.format(ticker.replace(' ', '%'))
         q = {
             'name': searchString,
             'order_by': 'apk',
             'order': 'DESC'
         }
-        query = url + urllib.urlencode(q)
+        da = urllib.urlencode(q)
+        print da
+        query = url + da
         result = requests.get(query)
         dic = json.loads(result.content)
 
@@ -69,6 +72,7 @@ except:
 def test():
     tickers = 'smirnoff gold,triple'
     tickers = 'sofiero'
+    tickers = u'åbro'
     runMe(None, tickers)
 
 if __name__ == "__main__":
