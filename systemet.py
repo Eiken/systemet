@@ -29,29 +29,28 @@ def runMe(bot, tickers):
 
     for ticker in tickers:
         searchString = '%{0}%'.format(ticker.replace(' ', '%'))
-    
         q = {
             'name': searchString,
         }
-
         query = url + urllib.urlencode(q)
         result = requests.get(query)
-
         dic = json.loads(result.content)
 
-
         numresults = len(dic)
+        if numresults == 0:
+            rsu = u'Found no products'
+            output(bot, rsu)
+            continue
+
         rsu = u'Found {0} products, showing 5'.format(numresults)
         output(bot, rsu)
 
         #max results 5
         dic = dic[:5]
-        for r in dic:
-            
+        for r in dic:          
             out = u'{0} ({1})'.format(r.get('name'), r.get('product_number')).ljust(30)
             out += u' - {0} kr'.format(r.get('price')).ljust(10)
             out += u' - apk: {0}'.format(r.get('apk'))
-
             output(bot, out)
 
 
@@ -67,7 +66,6 @@ except:
 
 def test():
     tickers = 'smirnoff gold,triple'
-
     runMe(None, tickers)
 
 if __name__ == "__main__":
