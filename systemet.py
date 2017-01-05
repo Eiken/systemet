@@ -3,6 +3,7 @@
 import requests
 import urllib
 import json
+import sys
 
 try:
     from willie import module
@@ -15,7 +16,7 @@ def output(bot, out):
     if bot is not None:
         bot.say(out)
     else:
-        print out
+        print(out)
 
 def runMe(bot, tickers):
     if not tickers:
@@ -28,17 +29,26 @@ def runMe(bot, tickers):
     url = "http://systemetapi.se/product?"
 
     for ticker in tickers:
-        ticker = ticker.encode('utf-8')
-        searchString = '%{0}%'.format(ticker.replace(' ', '%'))
+        if int(sys.version[0]) == 2:
+            ticker = ticker.encode('utf-8')
+
+        ticker = ticker.replace(' ', '%')	
+        searchString = '%{0}%'.format(ticker)
         q = {
             'name': searchString,
             'order_by': 'apk',
             'order': 'DESC'
         }
-        da = urllib.urlencode(q)
+        if int(sys.version[0]) == 2:
+            da = urllib.urlencode(q)
+        elif int(sys.version[0]) > 2:
+            da = urllib.parse.urlencode(q)
         query = url + da
         result = requests.get(query)
-        dic = json.loads(result.content)
+        content = result.content
+        if int(sys.version[0]) > 2:
+            content = content.decode('UTF-8')
+        dic = json.loads(content)
 
         numresults = len(dic)
         if numresults == 0:
