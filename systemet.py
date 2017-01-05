@@ -50,7 +50,22 @@ def runMe(bot, tickers):
             content = content.decode('UTF-8')
         dic = json.loads(content)
 
-        numresults = len(dic)
+        #max results 5 and real
+        existdic = []
+        for r in dic:
+            systemeturl = 'http://www.systembolaget.se/{0}'.format(r.get('product_number'))
+            if int(sys.version[0]) == 2:
+                a = urllib.urlopen(systemeturl)
+            elif int(sys.version[0]) > 2:
+                try:
+                    a = urllib.request.urlopen(systemeturl)
+                except:
+                    a = None
+
+            if a and a.getcode() != 404:
+                existdic.append(r)
+
+        numresults = len(existdic)
         if numresults == 0:
             rsu = u'Found no products'
             output(bot, rsu)
@@ -58,10 +73,8 @@ def runMe(bot, tickers):
 
         rsu = u'Found {0} products, showing 5'.format(numresults)
         output(bot, rsu)
-
-        #max results 5
-        dic = dic[:5]
-        for r in dic:
+        existdic = existdic[:5]
+        for r in existdic:
             out = u'{0} ({1})'.format(r.get('name'), r.get('product_number')).ljust(30)
             out += u' - {0} kr'.format(r.get('price')).ljust(10)
             out += u' - {0} liter'.format(r.get('volume')).ljust(10)
