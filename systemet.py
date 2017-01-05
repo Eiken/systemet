@@ -77,6 +77,8 @@ def runMe(bot, tickers):
         for r, url in existdic:
             tags = [t.get('name').title() for t in r.get('tags')]
             out = u'{0} ({1})'.format(r.get('name'), r.get('product_number'))
+            if formatting:
+                out = formatting.bold(out)
             out += u' - {0}'.format(', '.join(tags))
             out += u' - {0} kr'.format(r.get('price'))
             out += u' - {0} liter'.format(r.get('volume'))
