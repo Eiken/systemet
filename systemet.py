@@ -63,7 +63,7 @@ def runMe(bot, tickers):
                     a = None
 
             if a and a.getcode() != 404:
-                existdic.append(r)
+                existdic.append((r, systemeturl))
 
         numresults = len(existdic)
         if numresults == 0:
@@ -74,11 +74,14 @@ def runMe(bot, tickers):
         rsu = u'Found {0} products, showing 5'.format(numresults)
         output(bot, rsu)
         existdic = existdic[:5]
-        for r in existdic:
-            out = u'{0} ({1})'.format(r.get('name'), r.get('product_number')).ljust(30)
-            out += u' - {0} kr'.format(r.get('price')).ljust(10)
-            out += u' - {0} liter'.format(r.get('volume')).ljust(10)
-            out += u' - apk: {0}'.format(r.get('apk'))
+        for r, url in existdic:
+            tags = [t.get('name').title() for t in r.get('tags')]
+            out = u'{0} ({1})'.format(r.get('name'), r.get('product_number'))
+            out += u' - {0}'.format(', '.join(tags))
+            out += u' - {0} kr'.format(r.get('price'))
+            out += u' - {0} liter'.format(r.get('volume'))
+            out += u' - {0} apk'.format(r.get('apk'))
+            out += u' - {0}'.format(url)
             output(bot, out)
 
 
