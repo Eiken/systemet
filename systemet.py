@@ -6,8 +6,8 @@ import json
 import sys
 
 try:
-    from willie import module
-    from willie import formatting
+    from sopel import module
+    from sopel import formatting
 except:
     module = None
     formatting = None
@@ -82,6 +82,7 @@ def test():
     tickers = 'smirnoff gold,triple'
     tickers = 'sofiero'
     tickers = u'åbro'
+    tickers = 'Campo Viejo'
     runMe(None, tickers)
 
 if __name__ == "__main__":
