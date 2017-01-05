@@ -61,9 +61,10 @@ def runMe(bot, tickers):
 
         #max results 5
         dic = dic[:5]
-        for r in dic:          
+        for r in dic:
             out = u'{0} ({1})'.format(r.get('name'), r.get('product_number')).ljust(30)
             out += u' - {0} kr'.format(r.get('price')).ljust(10)
+            out += u' - {0} liter'.format(r.get('volume')).ljust(10)
             out += u' - apk: {0}'.format(r.get('apk'))
             output(bot, out)
 
